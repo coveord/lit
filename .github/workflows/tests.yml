@@ -15,6 +15,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
@@ -39,6 +44,11 @@ jobs:
       WIREIT_PARALLEL: 1
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
@@ -74,6 +84,11 @@ jobs:
       WIREIT_PARALLEL: 1
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3

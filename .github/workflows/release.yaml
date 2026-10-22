@@ -24,6 +24,11 @@ jobs:
     env:
       WIREIT_LOGGER: quiet-ci
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        with:
+          egress-policy: audit
+
       - name: Use Lit Robot's name and email for all git actions
         run: |
           git config --global user.name "Lit Robot"
@@ -56,7 +61,7 @@ jobs:
         id: cs
         # Pinning to v1.5.1 as v1.5.2 introduced a bug with sub directories
         # See https://github.com/changesets/action/issues/501
-        uses: changesets/action@v1.5.1
+        uses: changesets/action@001cd79f0a536e733315164543a727bdf2d70aff # v1.5.1
         with:
           # The `working-directory` option is only available for steps that use
           # `run`. This `cwd` option is the same, but specific to this action.

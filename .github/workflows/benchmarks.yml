@@ -11,6 +11,11 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
@@ -19,7 +24,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - uses: google/wireit@setup-github-actions-caching/v2
+      - uses: google/wireit@9d7c2e5346f8ef1b1ab6014c4e96c74e234f7ed5 # setup-github-actions-caching/v2.0.4
 
       - name: NPM install
         env:
