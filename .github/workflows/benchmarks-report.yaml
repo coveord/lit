@@ -22,8 +22,13 @@ jobs:
     # Only add the "benchmarks are running" text when the workflow_run starts
     if: ${{ github.event.action == 'requested' }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        with:
+          egress-policy: audit
+
       - name: Report Tachometer Running
-        uses: andrewiggins/tachometer-reporter-action@v2
+        uses: andrewiggins/tachometer-reporter-action@f4edc62a47169384c3f950a48f58000ce81cd07c # v2.4.1
         with:
           # Set initialize true so this action just creates the comment and adds
           # the "benchmarks are running" text
@@ -41,7 +46,12 @@ jobs:
     steps:
       # Download the artifact from the triggering workflow that contains the
       # Tachometer results to report
-      - uses: dawidd6/action-download-artifact@v2
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        with:
+          egress-policy: audit
+
+      - uses: dawidd6/action-download-artifact@268677152d06ba59fcec7a7f0b5d961b6ccd7e1e # v2.28.0
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
@@ -50,7 +60,7 @@ jobs:
 
       # Create/update the comment with the latest results
       - name: Report Tachometer Results
-        uses: andrewiggins/tachometer-reporter-action@main
+        uses: andrewiggins/tachometer-reporter-action@fef5976dd7c57c673de2391f1c2cfbfab7a9c415 # main
         with:
           path: results/*.json
           pr-bench-name: this-change
